@@ -1,0 +1,4 @@
+import test from "node:test";import assert from "node:assert/strict";import {DNSCache} from "../public/cache.js";
+test("returns hits until TTL expires",()=>{const c=new DNSCache();c.resolve("a.example",{ttl:5,value:"192.0.2.1"});assert.equal(c.lookup("a.example").hit,true);c.advance(5);assert.equal(c.lookup("a.example").hit,false);});
+test("normalizes hostnames and caches negative answers",()=>{const c=new DNSCache();c.resolve("Missing.Example.",{ttl:10,negative:true});assert.equal(c.lookup("missing.example").negative,true);});
+test("evicts least recently used entry at capacity",()=>{const c=new DNSCache(2);c.resolve("a.test",{ttl:20});c.resolve("b.test",{ttl:20});c.lookup("a.test");c.resolve("c.test",{ttl:20});assert.equal(c.lookup("b.test").hit,false);assert.equal(c.lookup("a.test").hit,true);});

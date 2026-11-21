@@ -1,0 +1,11 @@
+{
+  "name": "dns-cache-simulator",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "A local DNS cache simulator for exploring TTL expiry, negative caching, and LRU eviction.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  }
+}
